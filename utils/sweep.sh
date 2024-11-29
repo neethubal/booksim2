@@ -50,7 +50,7 @@ shift
 
 if [ "${initial_step}" = "" ]
 then
-    initial_step=0.05
+    initial_step=0.003
 fi
 if [ "${minimum_step}" = "" ]
 then
