@@ -2175,7 +2175,7 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
       }
     }
 
-    out_port = (n_choices == 1) ? choices[0] : choices[RandomInt(1)];
+    out_port = (n_choices == 1) ? choices[0] : choices[r->GetAvailableVCs(choices[0]) < r->GetAvailableVCs(choices[1])];
     
     if(out_port == out_port_xy) {
       vcEnd -= available_vcs;
