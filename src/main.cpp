@@ -116,6 +116,8 @@ bool Simulate( BookSimConfig const & config )
   assert(trafficManager == NULL);
   trafficManager = TrafficManager::New( config, net ) ;
 
+
+
   /*Start the simulation run
    */
 
@@ -132,6 +134,16 @@ bool Simulate( BookSimConfig const & config )
             - ((double)(start_time.tv_sec) + (double)(start_time.tv_usec)/1000000.0);
 
   cout<<"Total run time "<<total_time<<endl;
+
+    ofstream myfile;
+  myfile.open ("netdump.txt");
+  for (int i = 0; i < subnets; ++i) {
+    myfile << "\nSubnet " << i << "\nChannel map:\n";
+    net[i]->DumpChannelMap(myfile, "");
+    
+  }
+  myfile.close();
+
 
   for (int i=0; i<subnets; ++i) {
 

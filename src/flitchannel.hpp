@@ -52,6 +52,7 @@ class Router ;
 
 class FlitChannel : public Channel<Flit> {
 public:
+  unsigned long count;
   FlitChannel(Module * parent, string const & name, int classes);
 
   void SetSource(Router const * const router, int port) ;

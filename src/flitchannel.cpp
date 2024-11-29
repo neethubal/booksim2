@@ -48,6 +48,7 @@
 FlitChannel::FlitChannel(Module * parent, string const & name, int classes)
 : Channel<Flit>(parent, name), _routerSource(NULL), _routerSourcePort(-1), 
   _routerSink(NULL), _routerSinkPort(-1), _idle(0) {
+    count = 0;
   _active.resize(classes, 0);
 }
 
@@ -64,6 +65,7 @@ void FlitChannel::SetSink(Router const * const router, int port) {
 void FlitChannel::Send(Flit * f) {
   if(f) {
     ++_active[f->cl];
+    ++count;
   } else {
     ++_idle;
   }

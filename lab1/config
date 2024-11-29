@@ -1,11 +1,17 @@
 // Topology
-topology = torus;
-k = 8;
+topology = fly;
+k = 4;
 n = 2;
 // Routing
-routing_function = dim_order;
+//dest_tag
+//dim_order
+//nca
+routing_function = dest_tag;
 // Flow control
 num_vcs = 4;
 // Traffic
-traffic = uniform;
+traffic = tornado;
 injection_rate = 0.15;
+
+stats_out = stats.txt;
+print_csv_results = 1;

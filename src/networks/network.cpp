@@ -262,22 +262,23 @@ void Network::DumpChannelMap( ostream & os, string const & prefix ) const
   os << prefix << "source_router,source_port,dest_router,dest_port" << endl;
   for(int c = 0; c < _nodes; ++c)
     os << prefix
-       << "-1," 
+       << "i" << c << "," 
        << _inject[c]->GetSourcePort() << ',' 
        << _inject[c]->GetSink()->GetID() << ',' 
-       << _inject[c]->GetSinkPort() << endl;
+       << _inject[c]->GetSinkPort() << ",-1" << endl;
   for(int c = 0; c < _channels; ++c)
     os << prefix
        << _chan[c]->GetSource()->GetID() << ',' 
        << _chan[c]->GetSourcePort() << ',' 
        << _chan[c]->GetSink()->GetID() << ',' 
-       << _chan[c]->GetSinkPort() << endl;
+       << _chan[c]->GetSinkPort() << ','
+       << _chan[c]->count << endl;
   for(int c = 0; c < _nodes; ++c)
     os << prefix
        << _eject[c]->GetSource()->GetID() << ',' 
        << _eject[c]->GetSourcePort() << ',' 
-       << "-1," 
-       << _eject[c]->GetSinkPort() << endl;
+       << "o" << c << "," 
+       << _eject[c]->GetSinkPort() << ",-1" << endl;
 }
 
 void Network::DumpNodeMap( ostream & os, string const & prefix ) const
