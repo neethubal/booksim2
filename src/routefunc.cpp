@@ -1966,27 +1966,13 @@ void west_first_random_mesh( const Router *r, const Flit *f, int in_channel, Out
         in_channel = 0;
     }
 
-    if (in_channel == 0) {
-      if (out_port_xy == 1 || out_port_yx == 1) {
-        n_choices = 1;
-        choices[0] = 1;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+    if (out_port_xy == 1 || out_port_yx == 1) {
+      n_choices = 1;
+      choices[0] = 1;
     } else {
-      if (out_port_xy == 1){
-        n_choices = 1;
-        choices[0] = out_port_yx;
-      } else if (out_port_yx == 1){
-        n_choices = 1;
-        choices[0] = out_port_xy;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+      n_choices = 2;
+      choices[0] = out_port_xy;
+      choices[1] = out_port_yx;
     }
 
     out_port = (n_choices == 1) ? choices[0] : choices[RandomInt(1)];
@@ -2059,27 +2045,13 @@ void west_first_outcredits_mesh( const Router *r, const Flit *f, int in_channel,
         in_channel = 0;
     }
 
-    if (in_channel == 0) {
-      if (out_port_xy == 1 || out_port_yx == 1) {
-        n_choices = 1;
-        choices[0] = 1;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+    if (out_port_xy == 1 || out_port_yx == 1) {
+      n_choices = 1;
+      choices[0] = 1;
     } else {
-      if (out_port_xy == 1){
-        n_choices = 1;
-        choices[0] = out_port_yx;
-      } else if (out_port_yx == 1){
-        n_choices = 1;
-        choices[0] = out_port_xy;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+      n_choices = 2;
+      choices[0] = out_port_xy;
+      choices[1] = out_port_yx;
     }
 
     out_port = (n_choices == 1) ? choices[0] : choices[r->GetUsedCredit(choices[0]) < r->GetUsedCredit(choices[1])];
@@ -2152,27 +2124,13 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
         in_channel = 0;
     }
 
-    if (in_channel == 0) {
-      if (out_port_xy == 1 || out_port_yx == 1) {
-        n_choices = 1;
-        choices[0] = 1;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+    if (out_port_xy == 1 || out_port_yx == 1) {
+      n_choices = 1;
+      choices[0] = 1;
     } else {
-      if (out_port_xy == 1){
-        n_choices = 1;
-        choices[0] = out_port_yx;
-      } else if (out_port_yx == 1){
-        n_choices = 1;
-        choices[0] = out_port_xy;
-      } else {
-        n_choices = 2;
-        choices[0] = out_port_xy;
-        choices[1] = out_port_yx;
-      }
+      n_choices = 2;
+      choices[0] = out_port_xy;
+      choices[1] = out_port_yx;
     }
 
     out_port = (n_choices == 1) ? choices[0] : choices[r->GetAvailableVCs(choices[0]) < r->GetAvailableVCs(choices[1])];
