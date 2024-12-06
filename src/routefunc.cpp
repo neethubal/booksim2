@@ -2148,6 +2148,95 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
   outputs->AddRange( out_port , vcBegin, vcEnd );
 
 }
+
+void west_first_outcredits_wrandom_mesh( const Router *r, const Flit *f, int in_channel, OutputSet *outputs, bool inject ) 
+{
+  int vcBegin = 0, vcEnd = gNumVCs-1;
+  if ( f->type == Flit::READ_REQUEST ) {
+    vcBegin = gReadReqBeginVC;
+    vcEnd = gReadReqEndVC;
+  } else if ( f->type == Flit::WRITE_REQUEST ) {
+    vcBegin = gWriteReqBeginVC;
+    vcEnd = gWriteReqEndVC;
+  } else if ( f->type ==  Flit::READ_REPLY ) {
+    vcBegin = gReadReplyBeginVC;
+    vcEnd = gReadReplyEndVC;
+  } else if ( f->type ==  Flit::WRITE_REPLY ) {
+    vcBegin = gWriteReplyBeginVC;
+    vcEnd = gWriteReplyEndVC;
+  }
+  assert(((f->vc >= vcBegin) && (f->vc <= vcEnd)) || (inject && (f->vc < 0)));
+
+  outputs->Clear( );
+  
+    int out_port;
+
+  if(inject) {
+
+    out_port = -1;
+
+  } else if(r->GetID() == f->dest) {
+
+    // at destination router, we don't need to separate VCs by dim order
+    out_port = 2*gN;
+
+  } else {
+
+    //each class must have at least 2 vcs assigned or else xy_yx will deadlock
+    int const available_vcs = (vcEnd - vcBegin + 1) / 2;
+    assert(available_vcs > 0);
+    
+    cout << "Flit " << f->id
+	       << " (input port " << in_channel
+         << ", source " << r->GetID()
+	       << ", destination " << f->dest << ")"
+	       << "." << endl;
+
+    int out_port_xy = dor_next_mesh( r->GetID(), f->dest, false );
+    int out_port_yx = dor_next_mesh( r->GetID(), f->dest, true );
+    
+    int n_choices = 0;
+    int choices[2];
+
+    bool x_then_y;
+    if(in_channel >= 2*gN){
+        in_channel = 0;
+    }
+
+    if (out_port_xy == 1 || out_port_yx == 1) {
+      n_choices = 1;
+      choices[0] = 1;
+    } else {
+      n_choices = 2;
+      choices[0] = out_port_xy;
+      choices[1] = out_port_yx;
+    }
+
+    if (n_choices == 1) {
+      out_port = choices[0];
+    } else {
+      const int w1 = r->GetUsedCredit(choices[0]);
+      const int w2 = r->GetUsedCredit(choices[1]);
+      const int W = w1 + w2;
+      const int Rmax = 4095;
+      const int c = (w2 != 0) && ((W*RandomInt((1<<Rb)-1)) >= (w1*Rmax));
+      out_port = choices[c];
+    }
+    
+    if(out_port == out_port_xy) {
+      vcEnd -= available_vcs;
+    } else {
+      vcBegin += available_vcs;
+    }
+
+  }
+
+  //cout << "Adding VC range ["  << vcBegin << "," << vcEnd << "]" << " at output port " << out_port << " for flit " << f->id << " (input port " << in_channel << ", destination " << f->dest << ")" << "." << endl;
+  outputs->Clear();
+  outputs->AddRange( out_port , vcBegin, vcEnd );
+
+}
+
 //=============================================================
 
 void InitializeRoutingMap( const Configuration & config )
@@ -2233,8 +2322,9 @@ void InitializeRoutingMap( const Configuration & config )
   gRoutingFunctionMap["chaos_mesh"]  = &chaos_mesh;
   gRoutingFunctionMap["chaos_torus"] = &chaos_torus;
 
-  gRoutingFunctionMap["west_first_random_mesh"]      = &west_first_random_mesh;
-  gRoutingFunctionMap["west_first_outcredits_mesh"]  = &west_first_outcredits_mesh;
-  gRoutingFunctionMap["west_first_outvcs_mesh"]      = &west_first_outvcs_mesh;
+  gRoutingFunctionMap["west_first_random_mesh"]             = &west_first_random_mesh;
+  gRoutingFunctionMap["west_first_outcredits_mesh"]         = &west_first_outcredits_mesh;
+  gRoutingFunctionMap["west_first_outvcs_mesh"]             = &west_first_outvcs_mesh;
+  gRoutingFunctionMap["west_first_outcredits_wrandom_mesh"] = &west_first_outcredits_wrandom_mesh;
 
 }
