@@ -2219,7 +2219,7 @@ void west_first_outcredits_wrandom_mesh( const Router *r, const Flit *f, int in_
       const int w2 = r->GetUsedCredit(choices[1]);
       const int W = w1 + w2;
       const int Rmax = 4095;
-      const int c = (w2 != 0) && ((W*RandomInt((1<<Rb)-1)) >= (w1*Rmax));
+      const int c = (w2 != 0) && ((W*RandomInt(Rmax)) >= (w1*Rmax));
       out_port = choices[c];
     }
     
