@@ -1949,11 +1949,7 @@ void west_first_random_mesh( const Router *r, const Flit *f, int in_channel, Out
     int const available_vcs = (vcEnd - vcBegin + 1) / 2;
     assert(available_vcs > 0);
     
-    cout << "Flit " << f->id
-	       << " (input port " << in_channel
-         << ", source " << r->GetID()
-	       << ", destination " << f->dest << ")"
-	       << "." << endl;
+    //cout << "Flit " << f->id << " (input port " << in_channel << ", source " << r->GetID() << ", destination " << f->dest << ")" << "." << endl;
 
     int out_port_xy = dor_next_mesh( r->GetID(), f->dest, false );
     int out_port_yx = dor_next_mesh( r->GetID(), f->dest, true );
@@ -2028,11 +2024,8 @@ void west_first_outcredits_mesh( const Router *r, const Flit *f, int in_channel,
     int const available_vcs = (vcEnd - vcBegin + 1) / 2;
     assert(available_vcs > 0);
     
-    cout << "Flit " << f->id
-	       << " (input port " << in_channel
-         << ", source " << r->GetID()
-	       << ", destination " << f->dest << ")"
-	       << "." << endl;
+    //cout << "Flit " << f->id << " (input port " << in_channel << ", source " << r->GetID() << ", destination " << f->dest << ")" << "." << endl;
+
 
     int out_port_xy = dor_next_mesh( r->GetID(), f->dest, false );
     int out_port_yx = dor_next_mesh( r->GetID(), f->dest, true );
@@ -2107,11 +2100,7 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
     int const available_vcs = (vcEnd - vcBegin + 1) / 2;
     assert(available_vcs > 0);
     
-    cout << "Flit " << f->id
-	       << " (input port " << in_channel
-         << ", source " << r->GetID()
-	       << ", destination " << f->dest << ")"
-	       << "." << endl;
+    //cout << "Flit " << f->id << " (input port " << in_channel << ", source " << r->GetID() << ", destination " << f->dest << ")" << "." << endl;
 
     int out_port_xy = dor_next_mesh( r->GetID(), f->dest, false );
     int out_port_yx = dor_next_mesh( r->GetID(), f->dest, true );
@@ -2186,11 +2175,7 @@ void west_first_outcredits_wrandom_mesh( const Router *r, const Flit *f, int in_
     int const available_vcs = (vcEnd - vcBegin + 1) / 2;
     assert(available_vcs > 0);
     
-    cout << "Flit " << f->id
-	       << " (input port " << in_channel
-         << ", source " << r->GetID()
-	       << ", destination " << f->dest << ")"
-	       << "." << endl;
+    //cout << "Flit " << f->id << " (input port " << in_channel << ", source " << r->GetID() << ", destination " << f->dest << ")" << "." << endl;
 
     int out_port_xy = dor_next_mesh( r->GetID(), f->dest, false );
     int out_port_yx = dor_next_mesh( r->GetID(), f->dest, true );
