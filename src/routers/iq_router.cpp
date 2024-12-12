@@ -110,7 +110,8 @@ IQRouter::IQRouter( Configuration const & config, Module *parent,
     _vc_allocator = Allocator::NewAllocator( this, "vc_allocator", 
 					     vc_alloc_type,
 					     _vcs*_inputs, 
-					     _vcs*_outputs );
+					     _vcs*_outputs,
+               &config);
 
     if ( !_vc_allocator ) {
       Error("Unknown vc_allocator type: " + vc_alloc_type);
@@ -121,7 +122,8 @@ IQRouter::IQRouter( Configuration const & config, Module *parent,
   _sw_allocator = Allocator::NewAllocator( this, "sw_allocator",
 					   sw_alloc_type,
 					   _inputs*_input_speedup, 
-					   _outputs*_output_speedup );
+					   _outputs*_output_speedup,
+               &config);
 
   if ( !_sw_allocator ) {
     Error("Unknown sw_allocator type: " + sw_alloc_type);
@@ -132,7 +134,8 @@ IQRouter::IQRouter( Configuration const & config, Module *parent,
     _spec_sw_allocator = Allocator::NewAllocator( this, "spec_sw_allocator",
 						  spec_sw_alloc_type,
 						  _inputs*_input_speedup, 
-						  _outputs*_output_speedup );
+						  _outputs*_output_speedup,
+               &config);
     if ( !_spec_sw_allocator ) {
       Error("Unknown spec_sw_allocator type: " + spec_sw_alloc_type);
     }
@@ -681,7 +684,7 @@ void IQRouter::_VCAllocEvaluate( )
 	    int const input_and_vc
 	      = _vc_shuffle_requests ? (vc*_inputs + input) : (input*_vcs + vc);
 	    _vc_allocator->AddRequest(input_and_vc, out_port*_vcs + out_vc, 
-				      0, in_priority, out_priority);
+				      0, in_priority, out_priority, f->ctime);
 	  }
 	}
       }
@@ -1276,7 +1279,7 @@ bool IQRouter::_SWAllocAddReq(int input, int vc, int output)
 		     << ")." << endl;
 	}
 	allocator->RemoveRequest(expanded_input, expanded_output, req.label);
-	allocator->AddRequest(expanded_input, expanded_output, vc, prio, prio);
+	allocator->AddRequest(expanded_input, expanded_output, vc, prio, prio, f->ctime);
 	return true;
       }
       if(f->watch) {
@@ -1300,7 +1303,7 @@ bool IQRouter::_SWAllocAddReq(int input, int vc, int output)
 		 << ", pri: " << prio
 		 << ")." << endl;
     }
-    allocator->AddRequest(expanded_input, expanded_output, vc, prio, prio);
+    allocator->AddRequest(expanded_input, expanded_output, vc, prio, prio, f->ctime);
     return true;
   }
   if(f->watch) {

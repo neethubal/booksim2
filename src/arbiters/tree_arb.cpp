@@ -79,9 +79,9 @@ void TreeArbiter::UpdateState() {
 
 void TreeArbiter::AddRequest( int input, int id, int pri )
 {
-  Arbiter::AddRequest(input, id, pri);
+  Arbiter::AddRequest(input, id, pri, -1);
   int group_index = input / _group_size;
-  _group_arbiters[group_index]->AddRequest( input % _group_size, id, pri );
+  _group_arbiters[group_index]->AddRequest( input % _group_size, id, pri, -1);
   ++_group_reqs[group_index];
 }
 
@@ -93,7 +93,7 @@ int TreeArbiter::Arbitrate( int* id, int* pri ) {
     if(_group_reqs[i]) {
       int group_id, group_pri;
       _group_arbiters[i]->Arbitrate(&group_id, &group_pri);
-      _global_arbiter->AddRequest(i, group_id, group_pri);
+      _global_arbiter->AddRequest(i, group_id, group_pri, -1);
     }
   }
   int group = _global_arbiter->Arbitrate(NULL, NULL);

@@ -66,7 +66,7 @@ void Allocator::Clear( )
 }
 
 void Allocator::AddRequest( int in, int out, int label, int in_pri,
-			    int out_pri ) {
+			    int out_pri, int ctime) {
 
   assert( ( in >= 0 ) && ( in < _inputs ) );
   assert( ( out >= 0 ) && ( out < _outputs ) );
@@ -154,9 +154,9 @@ bool DenseAllocator::ReadRequest( sRequest &req, int in, int out ) const
 }
 
 void DenseAllocator::AddRequest( int in, int out, int label, 
-				 int in_pri, int out_pri )
+				 int in_pri, int out_pri, int ctime)
 {
-  Allocator::AddRequest(in, out, label, in_pri, out_pri);
+  Allocator::AddRequest(in, out, label, in_pri, out_pri, ctime);
   assert( _request[in][out].label == -1 );
 
   _request[in][out].label   = label;
@@ -312,9 +312,9 @@ bool SparseAllocator::ReadRequest( sRequest &req, int in, int out ) const
 }
 
 void SparseAllocator::AddRequest( int in, int out, int label, 
-				  int in_pri, int out_pri )
+				  int in_pri, int out_pri, int ctime)
 {
-  Allocator::AddRequest(in, out, label, in_pri, out_pri);
+  Allocator::AddRequest(in, out, label, in_pri, out_pri, ctime);
   assert( _in_req[in].count(out) == 0 );
   assert( _out_req[out].count(in) == 0 );
 
@@ -334,6 +334,7 @@ void SparseAllocator::AddRequest( int in, int out, int label,
   req.label   = label;
   req.in_pri  = in_pri;
   req.out_pri = out_pri;
+  req.ctime   = ctime;
 
   _in_req[in][out] = req;
 

@@ -46,6 +46,7 @@ protected:
     bool valid ;
     int id ;
     int pri ;
+    int ctime;
   } entry_t ;
   
   vector<entry_t> _request ;
@@ -64,7 +65,7 @@ public:
   virtual void PrintState() const = 0 ;
   
   // Register request with arbiter
-  virtual void AddRequest( int input, int id, int pri ) ;
+  virtual void AddRequest( int input, int id, int pri, int ctime) ;
 
   // Update priority matrix based on last aribtration result
   virtual void UpdateState() = 0 ; 

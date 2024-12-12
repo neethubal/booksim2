@@ -62,7 +62,7 @@ void RoundRobinArbiter::AddRequest( int input, int id, int pri )
       _best_input = input;
     }
   }
-  Arbiter::AddRequest(input, id, pri);
+  Arbiter::AddRequest(input, id, pri, -1);
 }
 
 int RoundRobinArbiter::Arbitrate( int* id, int* pri ) {

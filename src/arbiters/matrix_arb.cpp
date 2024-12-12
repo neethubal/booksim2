@@ -72,7 +72,7 @@ void MatrixArbiter::UpdateState() {
 void MatrixArbiter::AddRequest( int input, int id, int pri )
 {
   _last_req = input;
-  Arbiter::AddRequest(input, id, pri);
+  Arbiter::AddRequest(input, id, pri, -1);
 }
 
 int MatrixArbiter::Arbitrate( int* id, int* pri ) {

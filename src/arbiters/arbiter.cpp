@@ -35,6 +35,7 @@
 #include "roundrobin_arb.hpp"
 #include "matrix_arb.hpp"
 #include "tree_arb.hpp"
+#include "queuing_arb.hpp"
 
 #include <limits>
 #include <cassert>
@@ -51,7 +52,7 @@ Arbiter::Arbiter( Module *parent, const string &name, int size )
     _request[i].valid = false ;
 }
 
-void Arbiter::AddRequest( int input, int id, int pri )
+void Arbiter::AddRequest( int input, int id, int pri, int ctime)
 {
   assert( 0 <= input && input < _size ) ;
   assert( !_request[input].valid );
@@ -60,6 +61,7 @@ void Arbiter::AddRequest( int input, int id, int pri )
   _request[input].valid = true ;
   _request[input].id = id ;
   _request[input].pri = pri ;
+  _request[input].ctime = ctime ;
 }
 
 int Arbiter::Arbitrate( int* id, int* pri )
@@ -71,6 +73,7 @@ int Arbiter::Arbitrate( int* id, int* pri )
       *pri = _request[_selected].pri ;
   }
 
+  cout << "Error: " << _selected << " " << _num_reqs << "\n"; 
   assert((_selected >= 0) || (_num_reqs == 0));
 
   return _selected ;
@@ -96,6 +99,8 @@ Arbiter *Arbiter::NewArbiter( Module *parent, const string& name,
     a = new RoundRobinArbiter( parent, name, size );
   } else if(arb_type == "matrix") {
     a = new MatrixArbiter( parent, name, size );
+  } else if(arb_type == "queuing") {
+    a = new QueuingArbiter( parent, name, size );
   } else if(arb_type.substr(0, 5) == "tree(") {
     size_t left = 4;
     size_t middle = arb_type.find_first_of(',');
