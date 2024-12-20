@@ -1957,11 +1957,6 @@ void west_first_random_mesh( const Router *r, const Flit *f, int in_channel, Out
     int n_choices = 0;
     int choices[2];
 
-    bool x_then_y;
-    if(in_channel >= 2*gN){
-        in_channel = 0;
-    }
-
     if (out_port_xy == 1 || out_port_yx == 1) {
       n_choices = 1;
       choices[0] = 1;
@@ -1973,11 +1968,11 @@ void west_first_random_mesh( const Router *r, const Flit *f, int in_channel, Out
 
     out_port = (n_choices == 1) ? choices[0] : choices[RandomInt(1)];
     
-    if(out_port == out_port_xy) {
-      vcEnd -= available_vcs;
-    } else {
-      vcBegin += available_vcs;
-    }
+    // if(out_port == out_port_xy) {
+    //   vcEnd -= available_vcs;
+    // } else {
+    //   vcBegin += available_vcs;
+    // }
 
   }
 
@@ -2033,11 +2028,6 @@ void west_first_outcredits_mesh( const Router *r, const Flit *f, int in_channel,
     int n_choices = 0;
     int choices[2];
 
-    bool x_then_y;
-    if(in_channel >= 2*gN){
-        in_channel = 0;
-    }
-
     if (out_port_xy == 1 || out_port_yx == 1) {
       n_choices = 1;
       choices[0] = 1;
@@ -2047,13 +2037,13 @@ void west_first_outcredits_mesh( const Router *r, const Flit *f, int in_channel,
       choices[1] = out_port_yx;
     }
 
-    out_port = (n_choices == 1) ? choices[0] : choices[r->GetUsedCredit(choices[0]) < r->GetUsedCredit(choices[1])];
+    out_port = (n_choices == 1) ? choices[0] : choices[r->GetUsedCredit(choices[0]) > r->GetUsedCredit(choices[1])];
     
-    if(out_port == out_port_xy) {
-      vcEnd -= available_vcs;
-    } else {
-      vcBegin += available_vcs;
-    }
+    // if(out_port == out_port_xy) {
+    //   vcEnd -= available_vcs;
+    // } else {
+    //   vcBegin += available_vcs;
+    // }
 
   }
 
@@ -2108,11 +2098,6 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
     int n_choices = 0;
     int choices[2];
 
-    bool x_then_y;
-    if(in_channel >= 2*gN){
-        in_channel = 0;
-    }
-
     if (out_port_xy == 1 || out_port_yx == 1) {
       n_choices = 1;
       choices[0] = 1;
@@ -2124,11 +2109,11 @@ void west_first_outvcs_mesh( const Router *r, const Flit *f, int in_channel, Out
 
     out_port = (n_choices == 1) ? choices[0] : choices[r->GetAvailableVCs(choices[0]) < r->GetAvailableVCs(choices[1])];
     
-    if(out_port == out_port_xy) {
-      vcEnd -= available_vcs;
-    } else {
-      vcBegin += available_vcs;
-    }
+    // if(out_port == out_port_xy) {
+    //   vcEnd -= available_vcs;
+    // } else {
+    //   vcBegin += available_vcs;
+    // }
 
   }
 
@@ -2183,11 +2168,6 @@ void west_first_outcredits_wrandom_mesh( const Router *r, const Flit *f, int in_
     int n_choices = 0;
     int choices[2];
 
-    bool x_then_y;
-    if(in_channel >= 2*gN){
-        in_channel = 0;
-    }
-
     if (out_port_xy == 1 || out_port_yx == 1) {
       n_choices = 1;
       choices[0] = 1;
@@ -2200,19 +2180,19 @@ void west_first_outcredits_wrandom_mesh( const Router *r, const Flit *f, int in_
     if (n_choices == 1) {
       out_port = choices[0];
     } else {
-      const int w1 = r->GetUsedCredit(choices[0]);
-      const int w2 = r->GetUsedCredit(choices[1]);
+      const int w2 = r->GetUsedCredit(choices[0]);
+      const int w1 = r->GetUsedCredit(choices[1]);
       const int W = w1 + w2;
       const int Rmax = 4095;
       const int c = (w2 != 0) && ((W*RandomInt(Rmax)) >= (w1*Rmax));
       out_port = choices[c];
     }
     
-    if(out_port == out_port_xy) {
-      vcEnd -= available_vcs;
-    } else {
-      vcBegin += available_vcs;
-    }
+    // if(out_port == out_port_xy) {
+    //   vcEnd -= available_vcs;
+    // } else {
+    //   vcBegin += available_vcs;
+    // }
 
   }
 
