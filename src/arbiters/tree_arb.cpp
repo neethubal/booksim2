@@ -77,7 +77,7 @@ void TreeArbiter::UpdateState() {
   }
 }
 
-void TreeArbiter::AddRequest( int input, int id, int pri )
+void TreeArbiter::AddRequest( int input, int id, int pri, int ctime)
 {
   Arbiter::AddRequest(input, id, pri, -1);
   int group_index = input / _group_size;

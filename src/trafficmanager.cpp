@@ -515,7 +515,7 @@ TrafficManager::TrafficManager( const Configuration &config, const vector<Networ
         ostringstream tmp_name;
 
         tmp_name << "plat_stat_" << c;
-        _plat_stats[c] = new Stats( this, tmp_name.str( ), 1.0, 1000 );
+        _plat_stats[c] = new Stats( this, tmp_name.str( ), 1.0, 8000 );
         _stats[tmp_name.str()] = _plat_stats[c];
         tmp_name.str("");
 

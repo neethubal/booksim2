@@ -56,7 +56,7 @@ public:
 
   void Clear( );
 
-  void AddRequest( int in, int label = 0, int pri = 0 );
+  void AddRequest( int in, int label = 0, int pri = 0, int ctime = 0);
   void RemoveRequest( int in, int label = 0 );
 
   int Match( ) const;

@@ -61,7 +61,6 @@ void Arbiter::AddRequest( int input, int id, int pri, int ctime)
   _request[input].valid = true ;
   _request[input].id = id ;
   _request[input].pri = pri ;
-  _request[input].ctime = ctime ;
 }
 
 int Arbiter::Arbitrate( int* id, int* pri )
@@ -72,8 +71,7 @@ int Arbiter::Arbitrate( int* id, int* pri )
     if ( pri )
       *pri = _request[_selected].pri ;
   }
-
-  cout << "Error: " << _selected << " " << _num_reqs << "\n"; 
+  
   assert((_selected >= 0) || (_num_reqs == 0));
 
   return _selected ;

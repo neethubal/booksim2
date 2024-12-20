@@ -44,7 +44,7 @@ void PriorityArbiter::Clear( )
   _requests.clear( );
 }
 
-void PriorityArbiter::AddRequest( int in, int label, int pri )
+void PriorityArbiter::AddRequest( int in, int label, int pri, int ctime)
 {
   sRequest r;
   list<sRequest>::iterator insert_point;

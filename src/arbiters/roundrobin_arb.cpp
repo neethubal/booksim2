@@ -53,7 +53,7 @@ void RoundRobinArbiter::UpdateState() {
     _pointer = ( _selected + 1 ) % _size ;
 }
 
-void RoundRobinArbiter::AddRequest( int input, int id, int pri )
+void RoundRobinArbiter::AddRequest( int input, int id, int pri, int ctime)
 {
   if(!_request[input].valid || (_request[input].pri < pri)) {
     if((_num_reqs == 0) || 
@@ -67,6 +67,26 @@ void RoundRobinArbiter::AddRequest( int input, int id, int pri )
 
 int RoundRobinArbiter::Arbitrate( int* id, int* pri ) {
   
+  /* 
+  int any_valid = 0;
+  int diff_prio = 0;
+  int last_prio = -1;
+  for ( int i = 0 ; i < _size; i++ ) {
+    any_valid += _request[i].valid;
+    if (_request[i].valid) {
+      diff_prio += (last_prio != _request[i].pri) && (last_prio >= 0);
+      last_prio = _request[i].pri;
+    }
+  }
+
+  if (any_valid >= 2 && diff_prio > 0) {
+  cout << "Request state: " << _best_input << " | ";
+  for ( int i = 0 ; i < _size ; i++ )
+    if (_request[i].valid)
+     cout << i << " " << _request[i].id << " " << numeric_limits<int>::max() - _request[i].pri << " | " ;
+    cout << "\n";
+  }
+  */
   _selected = _best_input;
   
   return Arbiter::Arbitrate(id, pri);

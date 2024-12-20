@@ -46,7 +46,6 @@ protected:
     bool valid ;
     int id ;
     int pri ;
-    int ctime;
   } entry_t ;
   
   vector<entry_t> _request ;
