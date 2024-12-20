@@ -36,6 +36,7 @@
 #include "matrix_arb.hpp"
 #include "tree_arb.hpp"
 #include "queuing_arb.hpp"
+#include "actually_queuing_arb.hpp"
 
 #include <limits>
 #include <cassert>
@@ -97,8 +98,10 @@ Arbiter *Arbiter::NewArbiter( Module *parent, const string& name,
     a = new RoundRobinArbiter( parent, name, size );
   } else if(arb_type == "matrix") {
     a = new MatrixArbiter( parent, name, size );
-  } else if(arb_type == "queuing") {
+  } else if(arb_type == "queuing_old") {
     a = new QueuingArbiter( parent, name, size );
+  } else if(arb_type == "queuing") {
+    a = new ActuallyQueingArbiter( parent, name, size );
   } else if(arb_type.substr(0, 5) == "tree(") {
     size_t left = 4;
     size_t middle = arb_type.find_first_of(',');
